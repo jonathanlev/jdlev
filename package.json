@@ -2,7 +2,7 @@
   "name": "jdlev",
   "version": "1.0.0",
   "description": "",
-  "main": "demo_http.js",
+  "main": "index.js",
   "dependencies": {
     "upper-case": "^2.0.1"
   },
