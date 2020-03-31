@@ -1,21 +1,20 @@
-const http = require('http');
-var dt = require('./node_modules/myfirstmodule');
+var PORT = process.env.PORT || 5000;
+var express = require('express');
+var app = express();
 
+var http = require('http');
+var server = http.Server(app);
 
+app.use(express.static('client'));
 
-const server = http.createServer(function (req, res) {
-  res.writeHead(200, {'Content-Type': 'text/html'});
-  res.write("The date and time are currently: " + dt.myDateTime());
-  res.end();
-})
+server.listen(PORT, function() {
+  console.log('Chat server running');
+});
 
-const hostname = '127.0.0.1';
-let port = process.env.PORT;
-if (port == null || port == "") {
-  port = 8080;
-}
-server.listen(port);
+var io = require('socket.io')(server);
 
-server.listen(port, hostname, () => {
-  console.log(`Server running at http://${hostname}:${port}/`);
+io.on('connection', function(socket) {
+  socket.on('message', function(msg) {
+    io.emit('message', msg);
+  });
 });
